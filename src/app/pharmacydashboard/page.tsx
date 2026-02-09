@@ -1,4 +1,6 @@
-"use client";import {
+"use client";
+
+import {
   Box,
   Typography,
   Table,
@@ -22,7 +24,9 @@
   CardContent,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getMedicines, Medicine } from "../../lib/firestore";
+import { useAuth } from "../../context/AuthContext";
 
 export default function PharmacyDashboard() {
   const [medicines, setMedicines] = useState<Medicine[]>([]);
@@ -30,11 +34,30 @@ export default function PharmacyDashboard() {
   const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null);
   const [toastMessage, setToastMessage] = useState("");
   const [openToast, setOpenToast] = useState(false);
+  const { user, role, loading } = useAuth();
+  const router = useRouter();
+
+  // Check authentication
+  useEffect(() => {
+    if (!loading && (!user || role !== "pharmacy")) {
+      router.push("/pharmacy-login");
+    }
+  }, [user, role, loading, router]);
 
   // get medicines from Firebase
   useEffect(() => {
-    getMedicines().then(setMedicines);
-  }, []);
+    if (user && role === "pharmacy") {
+      getMedicines().then(setMedicines);
+    }
+  }, [user, role]);
+
+  if (loading) {
+    return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>Loading...</Box>;
+  }
+
+  if (!user || role !== "pharmacy") {
+    return null; // Will redirect
+  }
 
   // Toggle medicine status
   const toggleStatus = (id: string) => {

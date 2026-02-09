@@ -16,21 +16,24 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import Link from 'next/link';
 
-
-
 export default function HeroSection() {
-  const [city, setCity] = useState("");
+  const [city] = useState("");
 
   return (
     <Box
       sx={{
-        background: "linear-gradient(175deg, #0f766e, #0284c7)",
+        background: "radial-gradient(ellipse at top, #0284c7, #0f766e)",
         color: "white",
         pt: 3,
         pb: 30,
-        px: 5,
+        px: 0,
         position: "relative",
-        
+        width: "100vw",
+        left: "49.5%",
+        right: "49.5%",
+        marginLeft: "-50vw",
+        marginRight: "-50vw",
+        marginTop: "-0.5vw",
       }}
     >
       {/* 🔹 Top Bar */}
@@ -42,6 +45,7 @@ export default function HeroSection() {
           justifyContent: "space-between",
           alignItems: "center",
           mb: 6,
+          px: 5,
         }}
       >
         <Box display="flex" alignItems="center" gap={2.5}>
@@ -55,6 +59,21 @@ export default function HeroSection() {
         </Box>
 
         <Box display="flex" alignItems="center" gap={1}>
+          <Link href="/pharmacy-login" passHref>
+            <Button
+              sx={{
+                color: "#FFFFFFE6",
+                fontSize: "14px",
+                fontFamily: "plus-jakarta-sans, sans-serif",
+                padding: "10px 16px",
+                ":hover": {
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                },
+              }}
+            >
+              For Pharmacies
+            </Button>
+          </Link>
           <Chip
             icon={<LocationOnIcon />}
             label="Pakistan"
@@ -69,24 +88,6 @@ export default function HeroSection() {
               ":hover": { backgroundColor: "#FFFFFF55" },
             }}
           />
-          <Link href="/pharmacy-login" passHref>
-            <Button
-              variant="outlined"
-              sx={{
-                color: "white",
-                borderColor: "rgba(255,255,255,0.5)",
-                fontSize: 14,
-                fontFamily: "plus-jakarta-sans, sans-serif",
-                padding: "10px 16px",
-                ":hover": {
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  borderColor: "white",
-                },
-              }}
-            >
-              Pharmacy Login
-            </Button>
-          </Link>
         </Box>
       </Box>
 
@@ -118,13 +119,13 @@ export default function HeroSection() {
           Find Medicines Near You
         </Typography>
 
-        <Typography sx={{ 
+        <Typography sx={{
           opacity: 0.9, mb: 6,
           color: "#CCFBF1",
           fontFamily: "plus-jakarta-sans, sans-serif",
           margin: '0 96px 40px',
-           }}
-           >
+        }}
+        >
           Check real-time medicine availability at pharmacies in your area during shortages
         </Typography>
       </Box>
@@ -147,17 +148,18 @@ export default function HeroSection() {
       >
         <Box
           sx={{
-          maxWidth: 1000,
-          mx: "auto",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-          gap: 2,
-          borderRadius: 50,
+            maxWidth: 1000,
+            mx: "auto",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+            gap: 2,
+            borderRadius: 50,
           }}
         >
           <TextField
+            autoFocus
             fullWidth
             placeholder="Search medicine name..."
             InputProps={{
@@ -165,24 +167,24 @@ export default function HeroSection() {
             }}
           />
 
-   <TextField
-  fullWidth
-  select
-  label="Select City / Area"
-  defaultValue={city}
-  InputProps={{
-    startAdornment: <LocationOnIcon sx={{ mr: 1 }} />,
-  }}
->
-  <MenuItem value="Karachi">Karachi</MenuItem>
-  <MenuItem value="Lahore">Lahore</MenuItem>
-  <MenuItem value="Islamabad">Islamabad</MenuItem>
-  <MenuItem value="Rawalpindi">Rawalpindi</MenuItem>
-  <MenuItem value="Faisalabad">Faisalabad</MenuItem>
-  <MenuItem value="Multan">Multan</MenuItem>
-  <MenuItem value="Peshawar">Peshawar</MenuItem>
-  <MenuItem value="Quetta">Quetta</MenuItem>
-</TextField>
+          <TextField
+            fullWidth
+            select
+            label="Select City / Area"
+            defaultValue={city}
+            InputProps={{
+              startAdornment: <LocationOnIcon sx={{ mr: 1 }} />,
+            }}
+          >
+            <MenuItem value="Karachi">Karachi</MenuItem>
+            <MenuItem value="Lahore">Lahore</MenuItem>
+            <MenuItem value="Islamabad">Islamabad</MenuItem>
+            <MenuItem value="Rawalpindi">Rawalpindi</MenuItem>
+            <MenuItem value="Faisalabad">Faisalabad</MenuItem>
+            <MenuItem value="Multan">Multan</MenuItem>
+            <MenuItem value="Peshawar">Peshawar</MenuItem>
+            <MenuItem value="Quetta">Quetta</MenuItem>
+          </TextField>
 
 
 
@@ -223,5 +225,6 @@ export default function HeroSection() {
         </Box>
       </Paper>
     </Box>
+  
   );
 }
