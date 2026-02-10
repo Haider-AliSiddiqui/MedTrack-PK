@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useMemo } from "react";
+
+export const dynamic = 'force-dynamic';
 import { useSearchParams } from "next/navigation";
 import { Box, Typography, Button, Container, Paper } from "@mui/material";
 import Link from "next/link";
@@ -13,9 +15,7 @@ import Loader from "../loader";
 function SearchResultsContent() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("searchTerm") || "";
-  const city = searchParams.get("city") || "";
   const [medicines, setMedicines] = useState<Medicine[]>([]);
-  const [filteredMedicines, setFilteredMedicines] = useState<Medicine[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,16 +27,15 @@ function SearchResultsContent() {
     fetchMedicines();
   }, []);
 
-  useEffect(() => {
+  const filteredMedicines = useMemo(() => {
     if (searchTerm) {
-      const filtered = medicines.filter(
+      return medicines.filter(
         (med) =>
           med.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
           med.status === "Available"
       );
-      setFilteredMedicines(filtered);
     } else {
-      setFilteredMedicines([]);
+      return [];
     }
   }, [medicines, searchTerm]);
 
