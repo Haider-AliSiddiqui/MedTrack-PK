@@ -7,25 +7,37 @@ import {
   Button,
   Chip,
   Paper,
+  IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ScienceIcon from "@mui/icons-material/Science";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import ClearIcon from '@mui/icons-material/Clear';
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
+import Image from 'next/image';
+import logo from '../../images/logo.png';
 
 export default function HeroSection() {
-  const [city] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      router.push(`/search-results?searchTerm=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+    }
+  };
 
   return (
     <Box
       sx={{
         background: "radial-gradient(ellipse at top, #0284c7, #0f766e)",
         color: "white",
-        pt: 3,
-        pb: 30,
+        pt: { xs: 2, md: 3 },
+        pb: { xs: 20, md: 30 },
         px: 0,
         position: "relative",
         width: "100vw",
@@ -44,28 +56,32 @@ export default function HeroSection() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 6,
-          px: 5,
+          mb: { xs: 4, md: 6 },
+          px: { xs: 2, md: 5 },
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: { xs: 2, md: 0 },
         }}
       >
-        <Box display="flex" alignItems="center" gap={2.5}>
-          <ScienceIcon sx={{ bgcolor: "rgba(255,255,255,0.15)", p: 1, borderRadius: 2 }} />
-          <Box>
-            <Typography fontSize={24} fontWeight="bold">MedTrack PK</Typography>
-            <Typography fontSize={15} variant="caption" sx={{ opacity: 0.8 }}>
+        <Box display="flex" alignItems="center" gap={1.5} flexDirection={{ xs: 'column', md: 'row' }}>
+          <Box sx={{ width: { xs: 150, md: 200 }, height: { xs: 70, md: 90 }, position: 'relative' }}>
+            <Image src={logo} alt="MedTrack PK Logo" fill style={{ objectFit: 'contain' }} />
+          </Box>
+          <Box textAlign={{ xs: 'center', md: 'left' }}>
+            <Typography fontSize={{ xs: 20, md: 24 }} fontWeight="bold">MedTrack PK</Typography>
+            <Typography fontSize={{ xs: 12, md: 15 }} variant="caption" sx={{ opacity: 0.8 }}>
               Medicine Availability Tracker
             </Typography>
           </Box>
         </Box>
 
-        <Box display="flex" alignItems="center" gap={1}>
+        <Box display="flex" alignItems="center" gap={1} flexDirection={{ xs: 'column', md: 'row' }}>
           <Link href="/pharmacy-login" passHref>
             <Button
               sx={{
                 color: "#FFFFFFE6",
-                fontSize: "14px",
+                fontSize: { xs: "12px", md: "14px" },
                 fontFamily: "plus-jakarta-sans, sans-serif",
-                padding: "10px 16px",
+                padding: { xs: "8px 12px", md: "10px 16px" },
                 ":hover": {
                   backgroundColor: "rgba(255,255,255,0.1)",
                 },
@@ -81,10 +97,10 @@ export default function HeroSection() {
               bgcolor: "rgba(255,255,255,0.15)",
               color: "white",
               cursor: "pointer",
-              fontSize: 14,
+              fontSize: { xs: 12, md: 14 },
               fontFamily: "plus-jakarta-sans, sans-serif",
               backgroundColor: "#FFFFFF33",
-              padding: "20px 16px",
+              padding: { xs: "16px 12px", md: "20px 16px" },
               ":hover": { backgroundColor: "#FFFFFF55" },
             }}
           />
@@ -92,16 +108,16 @@ export default function HeroSection() {
       </Box>
 
       {/* 🔹 Center Content */}
-      <Box textAlign="center" maxWidth={800} mx="auto">
+      <Box textAlign="center" maxWidth={800} mx="auto" px={{ xs: 2, md: 0 }}>
         <Chip
           icon={<FiberManualRecordIcon />}
           label="Tracking 500+ pharmacies across Pakistan"
           sx={{
             mb: 3,
             bgcolor: "rgba(255,255,255,0.15)",
-            fontSize: 14,
+            fontSize: { xs: 12, md: 14 },
             fontFamily: "plus-jakarta-sans, sans-serif",
-            padding: "8px 16px",
+            padding: { xs: "6px 12px", md: "8px 16px" },
             color: "#FFFFFFE6",
           }}
         />
@@ -111,7 +127,7 @@ export default function HeroSection() {
           fontWeight="bold"
           mb={2}
           sx={{
-            fontSize: 48,
+            fontSize: { xs: 32, md: 48 },
             color: "#FFFFFF",
             fontFamily: "plus-jakarta-sans, sans-serif",
           }}
@@ -123,7 +139,8 @@ export default function HeroSection() {
           opacity: 0.9, mb: 6,
           color: "#CCFBF1",
           fontFamily: "plus-jakarta-sans, sans-serif",
-          margin: '0 96px 40px',
+          margin: { xs: '0 16px 40px', md: '0 96px 40px' },
+          fontSize: { xs: '14px', md: '16px' },
         }}
         >
           Check real-time medicine availability at pharmacies in your area during shortages
@@ -137,13 +154,18 @@ export default function HeroSection() {
           maxWidth: 900,
           mx: "auto",
           mt: 8,
-          p: 3,
+          p: { xs: 2, md: 3 },
           borderRadius: 4,
           position: "absolute",
           left: "50%",
           transform: "translateX(-50%)",
-          bottom: -90,
-          width: "90%",
+          bottom: { xs: -100, md: -90 },
+          width: { xs: "95%", md: "90%" },
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            boxShadow: 10,
+            transform: 'translateX(-50%) translateY(-5px)',
+          },
         }}
       >
         <Box
@@ -151,6 +173,7 @@ export default function HeroSection() {
             maxWidth: 1000,
             mx: "auto",
             display: "flex",
+            flexDirection: { xs: 'column', md: 'row' },
             justifyContent: "space-between",
             alignItems: "center",
             mb: 3,
@@ -161,9 +184,42 @@ export default function HeroSection() {
           <TextField
             autoFocus
             fullWidth
-            placeholder="Search medicine name..."
+            placeholder="Search medicine"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
-              startAdornment: <SearchIcon sx={{ mr: 1 }} />,
+              startAdornment: (
+                <SearchIcon sx={{ mr: 1, color: '#666' }} />
+              ),
+              endAdornment: searchTerm && (
+                <IconButton onClick={() => setSearchTerm("")} sx={{ p: 0 }}>
+                  <ClearIcon sx={{ color: '#666' }} />
+                </IconButton>
+              ),
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 50,
+                backgroundColor: 'white',
+                '& fieldset': {
+                  borderColor: '#e0e0e0',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#0d9488',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#0d9488',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: '#666',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#0d9488',
+              },
+              '& .MuiInputBase-input': {
+                color: 'black',
+              },
             }}
           />
 
@@ -171,7 +227,8 @@ export default function HeroSection() {
             fullWidth
             select
             label="Select City / Area"
-            defaultValue={city}
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
             InputProps={{
               startAdornment: <LocationOnIcon sx={{ mr: 1 }} />,
             }}
@@ -191,11 +248,16 @@ export default function HeroSection() {
           <Button
             variant="contained"
             size="large"
+            onClick={handleSearch}
             sx={{
               px: 5,
               borderRadius: 20,
               bgcolor: "#0d9488",
               "&:hover": { bgcolor: "#0f766e" },
+              transition: 'all 0.3s ease',
+              '&:active': {
+                transform: 'scale(0.95)',
+              },
             }}
           >
             Search

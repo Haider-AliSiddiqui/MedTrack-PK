@@ -33,14 +33,18 @@ export const AuthProvider = ({
             setUser(firebaseUser);
 
             if (firebaseUser) {
-                const snap = await getDoc(
-                    doc(db, "users", firebaseUser.uid)
-                );
-
+                // First check "pharmacies" collection for pharmacy users
+                let snap = await getDoc(doc(db, "pharmacies", firebaseUser.uid));
                 if (snap.exists()) {
                     setRole(snap.data().role);
                 } else {
-                    setRole("user"); // default
+                    // If not in "pharmacies", check "users" collection
+                    snap = await getDoc(doc(db, "users", firebaseUser.uid));
+                    if (snap.exists()) {
+                        setRole(snap.data().role);
+                    } else {
+                        setRole("user"); // default
+                    }
                 }
             } else {
                 setRole(null);

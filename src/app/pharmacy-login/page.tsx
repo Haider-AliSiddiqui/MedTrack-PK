@@ -10,8 +10,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Alert,
 } from "@mui/material";
+import Swal from 'sweetalert2';
 import {
   Lock,
   Security,
@@ -21,7 +21,7 @@ import {
 import { useState } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";
 import { useAuth } from "../../context/AuthContext";
@@ -39,27 +39,81 @@ export default function PharmacyLogin() {
     setLoading(true);
     setError(null);
 
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // Fetch user role from Firestore
-      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userDoc = await getDoc(doc(db, "pharmacies", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
         if (userData.role === "pharmacy") {
+          await Swal.fire({
+            icon: 'success',
+            title: 'Login Successful!',
+            text: 'Welcome to your pharmacy dashboard.',
+            timer: 2000,
+            showConfirmButton: false
+          });
           router.push("/pharmacydashboard");
         } else {
-          setError("Access denied. Only pharmacy accounts can log in here.");
+          await Swal.fire({
+            icon: 'error',
+            title: 'Access Denied',
+            text: 'Only pharmacy accounts can log in here.'
+          });
         }
       } else {
-        setError("User profile not found. Please contact support.");
+        await Swal.fire({
+          icon: 'error',
+          title: 'Profile Not Found',
+          text: 'User profile not found. Please contact support.'
+        });
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Login failed. Please check your credentials.";
-      setError(errorMessage);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: errorMessage
+      });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError("Please enter your email address first.");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      await Swal.fire({
+        icon: 'success',
+        title: 'Password Reset Email Sent',
+        text: 'Check your email for instructions to reset your password.'
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to send password reset email.";
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMessage
+      });
     }
   };
 
@@ -69,11 +123,19 @@ export default function PharmacyLogin() {
         minHeight: "100vh",
         background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        p: 2,
+        p: { xs: 1, md: 2 },
       }}
     >
+      <Box sx={{ alignSelf: "flex-start", mb: 2 }}>
+        <Link href="/" passHref>
+          <Button variant="outlined" sx={{ color: "#0d9488", borderColor: "#0d9488" }}>
+            Back to Home
+          </Button>
+        </Link>
+      </Box>
       <Paper
         elevation={10}
         sx={{
@@ -82,7 +144,8 @@ export default function PharmacyLogin() {
           borderRadius: 4,
           overflow: "hidden",
           display: "flex",
-          minHeight: 500,
+          flexDirection: { xs: 'column', md: 'row' },
+          minHeight: { xs: 'auto', md: 500 },
         }}
       >
         {/* Left Side - Instructions */}
@@ -92,7 +155,7 @@ export default function PharmacyLogin() {
             background: "linear-gradient(175deg, #0f766e, #0284c7)",
             color: "white",
             p: 4,
-            display: "flex",
+            display: { xs: 'none', md: 'flex' },
             flexDirection: "column",
             justifyContent: "center",
           }}
@@ -182,9 +245,9 @@ export default function PharmacyLogin() {
             </Typography>
 
             {error && (
-              <Alert severity="error" sx={{ mb: 2 }}>
+              <div style={{ marginBottom: '16px', color: 'red', fontSize: '14px' }}>
                 {error}
-              </Alert>
+              </div>
             )}
 
             <Box component="form" onSubmit={handleLogin} sx={{ width: "100%" }}>
@@ -231,25 +294,48 @@ export default function PharmacyLogin() {
               </Button>
             </Box>
 
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ mt: 3, textAlign: "center", fontFamily: "plus-jakarta-sans, sans-serif" }}
-            >
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/pharmacyregistration"
-                style={{
-                  color: "#0d9488",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
-                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+            <Box sx={{ mt: 3, textAlign: "center" }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 1, fontFamily: "plus-jakarta-sans, sans-serif" }}
               >
-                Register here
-              </Link>
-            </Typography>
+                <Button
+                  variant="text"
+                  onClick={handleForgotPassword}
+                  sx={{
+                    color: "#0d9488",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    p: 0,
+                    minWidth: "auto",
+                    "&:hover": { textDecoration: "underline" }
+                  }}
+                >
+                  Forgot Password?
+                </Button>
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ fontFamily: "plus-jakarta-sans, sans-serif" }}
+              >
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/pharmacyregistration"
+                  style={{
+                    color: "#0d9488",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+                >
+                  Register here
+                </Link>
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Paper>
