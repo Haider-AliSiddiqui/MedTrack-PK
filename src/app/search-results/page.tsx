@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Box, Typography, Button, Container, Paper } from "@mui/material";
 import Link from "next/link";
@@ -9,9 +9,8 @@ import { getMedicines, Medicine } from "../../lib/firestore";
 import SearchResults from "../../components/SearchResults";
 import MedicinesTable from "../../components/MedicinesTable";
 import Loader from "../loader";
-import medicineNotFound from "../../images/medicine-not-found.png";
 
-export default function SearchResultsPage() {
+function SearchResultsContent() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("searchTerm") || "";
   const city = searchParams.get("city") || "";
@@ -88,5 +87,13 @@ export default function SearchResultsPage() {
         </Paper>
       </Container>
     </Box>
+  );
+}
+
+export default function SearchResultsPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <SearchResultsContent />
+    </Suspense>
   );
 }
