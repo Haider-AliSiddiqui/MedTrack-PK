@@ -42,8 +42,9 @@ export default function TestFirebase() {
         email: `test${Date.now()}@example.com`,
         phone: "03001234567",
         password: "testpassword123",
-        address: "Test Address, Karachi, Sindh, 12345",
+        address: "Test Address",
         city: "Karachi",
+        state: "Sindh",
         licenseNumber: "TEST123456",
         licenseExpiryDate: "2025-12-31",
       };

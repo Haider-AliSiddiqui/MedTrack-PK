@@ -56,7 +56,7 @@ export async function checkFirebaseServices() {
     return {
       firestore: false,
       auth: false,
-      error: error.message,
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 }

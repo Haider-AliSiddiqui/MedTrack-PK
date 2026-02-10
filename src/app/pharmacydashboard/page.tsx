@@ -35,6 +35,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getMedicinesForPharmacy, addMedicine, updateMedicine, Medicine } from "../../lib/firestore";
 import { useAuth } from "../../context/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 import StatsCards from "../../components/StatsCards";
 import Loader from "../loader";
 
@@ -142,14 +144,22 @@ export default function PharmacyDashboard() {
         // showToast(`${newMedicineName} updated`);
       } else {
         // Add new
-        const newMed = { name: newMedicineName, status: newMedicineStatus };
+        // Fetch pharmacy details to get pharmacyName and location
+        const pharmacyDoc = await getDoc(doc(db, "pharmacies", user.uid));
+        const pharmacyData = pharmacyDoc.data();
+        const newMed = {
+          name: newMedicineName,
+          status: newMedicineStatus,
+          pharmacyName: pharmacyData?.pharmacyName || "",
+          location: `${pharmacyData?.address || ""}, ${pharmacyData?.city || ""}`
+        };
         const id = await addMedicine(user.uid, newMed);
         setMedicines(prev => [...prev, {
           id,
           name: newMedicineName,
           status: newMedicineStatus,
-          pharmacyName: "",
-          location: "",
+          pharmacyName: pharmacyData?.pharmacyName || "",
+          location: `${pharmacyData?.address || ""}, ${pharmacyData?.city || ""}`,
         }]);
         await Swal.fire({
           icon: 'success',

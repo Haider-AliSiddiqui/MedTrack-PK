@@ -1,5 +1,5 @@
 "use client";
-import { Typography, Card, CardContent, Box, Grid } from "@mui/material";
+import { Typography, Card, CardContent, Box } from "@mui/material";
 
 export default function HowItWorks() {
     return (
@@ -26,10 +26,16 @@ export default function HowItWorks() {
           fontSize: { xs: '14px', md: '16px' },
         }}
         >
-          Check real-time medicine availability at pharmacies in your area during shortages
+          Check real-npmtime medicine availability at pharmacies in your area during shortages
         </Typography>
-            <Grid container spacing={4} justifyContent="center">
-                <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: 4,
+                mt: 4
+            }}>
+                <Box sx={{ flex: "1 1 300px", maxWidth: "400px" }}>
                     <Card sx={{
                         height: "100%",
                         display: "flex",
@@ -59,8 +65,8 @@ export default function HowItWorks() {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                </Box>
+                <Box sx={{ flex: "1 1 300px", maxWidth: "400px" }}>
                     <Card sx={{
                         height: "100%",
                         display: "flex",
@@ -90,8 +96,8 @@ export default function HowItWorks() {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                </Box>
+                <Box sx={{ flex: "1 1 300px", maxWidth: "400px" }}>
                     <Card sx={{
                         height: "100%",
                         display: "flex",
@@ -121,8 +127,8 @@ export default function HowItWorks() {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Grid>
-            </Grid>
+                </Box>
+            </Box>
         </Box>
     );
 }

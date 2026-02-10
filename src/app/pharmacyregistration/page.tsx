@@ -118,15 +118,15 @@ export default function PharmacyRegistration() {
 
       console.log("✅ Firebase services are working. Proceeding with registration...");
 
-      const fullAddress = `${formData.address}, ${formData.city}, ${formData.state}, ${formData.zipCode}`;
       await registerPharmacy({
         pharmacyName: formData.pharmacyName,
         ownerName: formData.ownerName,
         email: formData.email,
         phone: formData.phone,
         password: formData.password,
-        address: fullAddress,
+        address: formData.address,
         city: formData.city,
+        state: formData.state,
         licenseNumber: formData.licenseNumber,
         licenseExpiryDate: formData.licenseExpiryDate,
       });
