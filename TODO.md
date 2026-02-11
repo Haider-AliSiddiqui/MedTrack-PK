@@ -1,4 +1,7 @@
-# TODO: Make Pharmacy Dashboard Responsive for Small Screens
+# Hero Section UI Improvements
 
-- [x] Edit src/app/pharmacydashboard/page.tsx: Add overflowX: 'auto' to TableContainer for horizontal scroll on small screens.
-- [x] Edit src/components/StatsCards.tsx: Change minWidth to { xs: 140, md: 180 } for smaller cards on small screens.
+- [x] Add subtle background overlay for visual depth
+- [x] Add fade-in animations to the title and description
+- [x] Make popular medicine chips clickable to auto-fill the search field
+- [x] Enhance the search card with better shadows and hover effects
+- [x] Refine spacing and typography for better responsiveness

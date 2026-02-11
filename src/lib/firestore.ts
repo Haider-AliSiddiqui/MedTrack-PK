@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, setDoc, addDoc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "./firebase";
 
@@ -9,6 +9,7 @@ export interface Medicine {
   status: "Available" | "Out of Stock" | "Low";
   pharmacyName: string;
   location: string;
+  phone: string;
 }
 
 /* 🔹 Pharmacy Type */
@@ -18,6 +19,7 @@ export interface Pharmacy {
   ownerName: string;
   email: string;
   phone: string;
+  password: string;
   address: string;
   city: string;
   state: string;
@@ -47,6 +49,7 @@ export async function getMedicines(): Promise<Medicine[]> {
         status: doc.data().status,
         pharmacyName: pharmacy.pharmacyName,
         location: `${pharmacy.address}, ${pharmacy.city}`,
+        phone: pharmacy.phone,
       }));
       allMedicines.push(...medicines);
     }
@@ -96,6 +99,16 @@ export async function updateMedicine(pharmacyId: string, medicineId: string, upd
   }
 }
 
+/* 🔹 Delete a medicine from a pharmacy's subcollection */
+export async function deleteMedicine(pharmacyId: string, medicineId: string): Promise<void> {
+  try {
+    await deleteDoc(doc(db, `pharmacies/${pharmacyId}/medicines`, medicineId));
+  } catch (error) {
+    console.error("Error deleting medicine:", error);
+    throw error;
+  }
+}
+
 /* 🔹 Register pharmacy with Firebase Auth and Firestore */
 export async function registerPharmacy(pharmacyData: {
   pharmacyName: string;
@@ -126,6 +139,7 @@ export async function registerPharmacy(pharmacyData: {
       ownerName: pharmacyData.ownerName,
       email: pharmacyData.email,
       phone: pharmacyData.phone,
+      password: pharmacyData.password,
       address: pharmacyData.address,
       city: pharmacyData.city,
       state: pharmacyData.state,

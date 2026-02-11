@@ -127,25 +127,51 @@ export default function PharmacyLogin() {
         alignItems: "center",
         justifyContent: "center",
         p: { xs: 1, md: 2 },
+        animation: 'fadeIn 0.8s ease-out',
+        '@keyframes fadeIn': {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
       }}
     >
-      <Box sx={{ alignSelf: "flex-start", mb: 2 }}>
+      <Box sx={{ alignSelf: "flex-start", mb: { xs: 1, md: 2 } }}>
         <Link href="/" passHref>
-          <Button variant="outlined" sx={{ color: "#0d9488", borderColor: "#0d9488" }}>
-            Back to Home
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#0d9488",
+              borderColor: "#0d9488",
+              borderRadius: 2,
+              px: { xs: 2, md: 3 },
+              py: { xs: 1, md: 1.5 },
+              fontSize: { xs: '12px', md: '14px' },
+              '&:hover': {
+                backgroundColor: "#0d9488",
+                color: "white",
+                transform: 'scale(1.05)',
+              },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            ← Back to Home
           </Button>
         </Link>
       </Box>
       <Paper
         elevation={10}
         sx={{
-          maxWidth: 1000,
+          maxWidth: { xs: '95%', md: 1000 },
           width: "100%",
-          borderRadius: 4,
+          borderRadius: { xs: 2, md: 4 },
           overflow: "hidden",
           display: "flex",
           flexDirection: { xs: 'column', md: 'row' },
           minHeight: { xs: 'auto', md: 500 },
+          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            boxShadow: '0 30px 60px rgba(0,0,0,0.15)',
+          },
         }}
       >
         {/* Left Side - Instructions */}

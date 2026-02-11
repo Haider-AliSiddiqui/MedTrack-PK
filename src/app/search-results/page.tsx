@@ -48,18 +48,55 @@ function SearchResultsContent() {
   }
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f9fafb", py: { xs: 2, md: 4 } }}>
-      <Container maxWidth="lg">
-        <Paper elevation={2} sx={{ p: { xs: 2, md: 3 }, borderRadius: 2 }}>
-          <Box sx={{ mb: 3 }}>
+    <Box sx={{
+      minHeight: "100vh",
+      background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 50%, #7dd3fc 75%, #38bdf8 100%)",
+      py: { xs: 1, md: 4 },
+      animation: 'fadeIn 0.6s ease-out',
+      '@keyframes fadeIn': {
+        '0%': { opacity: 0, transform: 'translateY(20px)' },
+        '100%': { opacity: 1, transform: 'translateY(0)' },
+      },
+      position: 'relative',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%230d9488\' fill-opacity=\'0.05\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'4\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+        pointerEvents: 'none',
+      },
+    }}>
+      <Container maxWidth="lg" sx={{ px: { xs: 1, md: 2 } }}>
+        <Paper
+          elevation={3}
+          sx={{
+            p: { xs: 2, md: 3 },
+            borderRadius: { xs: 2, md: 3 },
+            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+            border: '1px solid rgba(13, 148, 136, 0.1)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+          }}
+        >
+          <Box sx={{ mb: { xs: 2, md: 3 } }}>
             <Link href="/" passHref>
               <Button
                 variant="contained"
                 sx={{
                   bgcolor: "#0d9488",
-                  "&:hover": { bgcolor: "#0b7a6f" },
+                  "&:hover": {
+                    bgcolor: "#0b7a6f",
+                    transform: 'scale(1.05)',
+                  },
                   borderRadius: 2,
-                  px: 3,
+                  px: { xs: 2, md: 3 },
+                  py: { xs: 1, md: 1.5 },
+                  fontSize: { xs: '12px', md: '14px' },
+                  fontWeight: 'bold',
+                  textTransform: 'none',
+                  transition: 'all 0.3s ease',
                 }}
               >
                 ← Back to Home
@@ -70,15 +107,51 @@ function SearchResultsContent() {
           {filteredMedicines.length > 0 ? (
             <MedicinesTable medicines={filteredMedicines} />
           ) : (
-            <Box sx={{ textAlign: "center", py: 6 }}>
-              <Image
-                src="/images/medicine-not-found.png"
-                alt="No available medicines found"
-                width={300}
-                height={200}
-                style={{ marginBottom: 16 }}
-              />
-              <Typography variant="body1" color="text.secondary">
+            <Box sx={{
+              textAlign: "center",
+              py: { xs: 4, md: 6 },
+              px: { xs: 2, md: 0 }
+            }}>
+              <Box sx={{
+                width: { xs: 200, md: 300 },
+                height: { xs: 150, md: 200 },
+                position: 'relative',
+                mx: 'auto',
+                mb: 3,
+                animation: 'bounceIn 1s ease-out',
+                '@keyframes bounceIn': {
+                  '0%': { opacity: 0, transform: 'scale(0.3)' },
+                  '50%': { opacity: 1, transform: 'scale(1.05)' },
+                  '70%': { transform: 'scale(0.9)' },
+                  '100%': { opacity: 1, transform: 'scale(1)' },
+                },
+              }}>
+                <Image
+                  src="/images/medicine-not-found.png"
+                  alt="No available medicines found"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                />
+              </Box>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{
+                  fontSize: { xs: '14px', md: '16px' },
+                  fontWeight: '500',
+                  mb: 2
+                }}
+              >
+                No medicines found for "{searchTerm}"
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: { xs: '12px', md: '14px' },
+                  opacity: 0.8
+                }}
+              >
                 Try searching for a different medicine or check back later.
               </Typography>
             </Box>

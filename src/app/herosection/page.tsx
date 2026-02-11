@@ -34,7 +34,14 @@ export default function HeroSection() {
   return (
     <Box
       sx={{
-        background: "radial-gradient(ellipse at top, #0284c7, #0f766e)",
+        background: "linear-gradient(-45deg, #0284c7, #0f766e, #0284c7, #0f766e)",
+        backgroundSize: "400% 400%",
+        animation: "gradientShift 5s ease infinite",
+        "@keyframes gradientShift": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
         color: "white",
         pt: { xs: 2, md: 3 },
         pb: { xs: 20, md: 30 },
@@ -63,12 +70,62 @@ export default function HeroSection() {
         }}
       >
         <Box display="flex" alignItems="center" gap={1.5} flexDirection={{ xs: 'column', md: 'row' }}>
-          <Box sx={{ width: { xs: 150, md: 200 }, height: { xs: 70, md: 90 }, position: 'relative' }}>
+          <Box sx={{
+            width: { xs: 150, md: 200 },
+            height: { xs: 70, md: 90 },
+            position: 'relative',
+            animation: 'fadeInUp 1s ease-out',
+            '@keyframes fadeInUp': {
+              '0%': {
+                opacity: 0,
+                transform: 'translateY(30px)',
+              },
+              '100%': {
+                opacity: 1,
+                transform: 'translateY(0)',
+              },
+            },
+          }}>
             <Image src={logo} alt="MedTrack PK Logo" fill style={{ objectFit: 'contain' }} />
           </Box>
           <Box textAlign={{ xs: 'center', md: 'left' }}>
-            <Typography fontSize={{ xs: 20, md: 24 }} fontWeight="bold">MedTrack PK</Typography>
-            <Typography fontSize={{ xs: 12, md: 15 }} variant="caption" sx={{ opacity: 0.8 }}>
+            <Typography
+              fontSize={{ xs: 20, md: 24 }}
+              fontWeight="bold"
+              sx={{
+                animation: 'fadeInUp 1s ease-out 0.2s both',
+                '@keyframes fadeInUp': {
+                  '0%': {
+                    opacity: 0,
+                    transform: 'translateY(30px)',
+                  },
+                  '100%': {
+                    opacity: 1,
+                    transform: 'translateY(0)',
+                  },
+                },
+              }}
+            >
+              MedTrack PK
+            </Typography>
+            <Typography
+              fontSize={{ xs: 12, md: 15 }}
+              variant="caption"
+              sx={{
+                opacity: 0.8,
+                animation: 'fadeInUp 1s ease-out 0.4s both',
+                '@keyframes fadeInUp': {
+                  '0%': {
+                    opacity: 0,
+                    transform: 'translateY(30px)',
+                  },
+                  '100%': {
+                    opacity: 1,
+                    transform: 'translateY(0)',
+                  },
+                },
+              }}
+            >
               Medicine Availability Tracker
             </Typography>
           </Box>
@@ -130,6 +187,17 @@ export default function HeroSection() {
             fontSize: { xs: 32, md: 48 },
             color: "#FFFFFF",
             fontFamily: "plus-jakarta-sans, sans-serif",
+            animation: 'fadeInUp 1s ease-out',
+            '@keyframes fadeInUp': {
+              '0%': {
+                opacity: 0,
+                transform: 'translateY(30px)',
+              },
+              '100%': {
+                opacity: 1,
+                transform: 'translateY(0)',
+              },
+            },
           }}
         >
           Find Medicines Near You
@@ -281,7 +349,13 @@ export default function HeroSection() {
               "Amoxicillin",
               "Aspirin",
             ].map((item) => (
-              <Chip key={item} label={item} variant="outlined" />
+              <Chip
+                key={item}
+                label={item}
+                variant="outlined"
+                onClick={() => setSearchTerm(item)}
+                sx={{ cursor: 'pointer' }}
+              />
             ))}
           </Box>
         </Box>
