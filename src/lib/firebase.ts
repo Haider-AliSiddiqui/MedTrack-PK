@@ -13,7 +13,7 @@ const firebaseConfig = {
   storageBucket: "medtrack-pk.firebasestorage.app",
   messagingSenderId: "630831698955",
   appId: "1:630831698955:web:457fb53ea0e7e4b265e30e",
-  measurementId: "G-JR5LX0C5YX"
+  measurementId: "G-JR5LX0C5YX",
 };
 
 // Initialize Firebase

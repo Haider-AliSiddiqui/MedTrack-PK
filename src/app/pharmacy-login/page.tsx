@@ -19,6 +19,7 @@ import {
   CheckCircle,
 } from "@mui/icons-material";
 import { useState } from "react";
+import HomeIcon from "@mui/icons-material/Home";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
@@ -134,29 +135,79 @@ export default function PharmacyLogin() {
         },
       }}
     >
-      <Box sx={{ alignSelf: "flex-start", mb: { xs: 1, md: 2 } }}>
-        <Link href="/" passHref>
-          <Button
-            variant="outlined"
-            sx={{
-              color: "#0d9488",
-              borderColor: "#0d9488",
-              borderRadius: 2,
-              px: { xs: 2, md: 3 },
-              py: { xs: 1, md: 1.5 },
-              fontSize: { xs: '12px', md: '14px' },
-              '&:hover': {
-                backgroundColor: "#0d9488",
-                color: "white",
-                transform: 'scale(1.05)',
-              },
-              transition: 'all 0.3s ease',
-            }}
-          >
-            ← Back to Home
-          </Button>
-        </Link>
-      </Box>
+      <Box sx={{ mb: { xs: 2, md: 3 } }}>
+<Link href="/" passHref>
+              <Button
+                variant="contained"
+startIcon={
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 0.5,
+                    '& .icon-bg': {
+                      background: 'rgba(255,255,255,0.25)',
+                      borderRadius: '50%',
+                      p: 0.6,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    }
+                  }}>
+                    <Box className="icon-bg">
+                      <HomeIcon sx={{ fontSize: { xs: 16, md: 18 } }} />
+                    </Box>
+                  </Box>
+                }
+                sx={{
+                  background: 'linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #0284c7 100%)',
+                  color: 'white',
+                  borderRadius: 50,
+                  px: { xs: 2.5, md: 4 },
+                  py: { xs: 1.2, md: 1.8 },
+                  fontSize: { xs: '13px', md: '15px' },
+                  fontWeight: '700',
+                  textTransform: 'none',
+                  letterSpacing: '0.5px',
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                  boxShadow: '0 6px 20px rgba(13, 148, 136, 0.4), 0 2px 6px rgba(0,0,0,0.1)',
+                  border: '2px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                    transition: 'left 0.5s ease',
+                  },
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0369a1 100%)',
+                    transform: 'translateY(-3px) scale(1.02)',
+                    boxShadow: '0 12px 30px rgba(13, 148, 136, 0.5), 0 4px 12px rgba(0,0,0,0.15)',
+                    border: '2px solid rgba(255,255,255,0.3)',
+                    '&::before': {
+                      left: '100%',
+                    },
+                  },
+                  '&:active': {
+                    transform: 'translateY(-1px) scale(1.01)',
+                    boxShadow: '0 4px 15px rgba(13, 148, 136, 0.4)',
+                  },
+                  animation: 'float 3s ease-in-out infinite',
+                  '@keyframes float': {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-3px)' },
+                  },
+                }}
+              >
+                Back to Home
+              </Button>
+            </Link>
+          </Box>
       <Paper
         elevation={10}
         sx={{

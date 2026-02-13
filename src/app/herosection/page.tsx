@@ -139,6 +139,8 @@ export default function HeroSection() {
                 fontSize: { xs: "12px", md: "14px" },
                 fontFamily: "plus-jakarta-sans, sans-serif",
                 padding: { xs: "8px 12px", md: "10px 16px" },
+                bgcolor: { xs: "rgba(255,255,255,0.2)", md: "transparent" },
+                border: { xs: "1px solid rgba(255,255,255,0.5)", md: "none" },
                 ":hover": {
                   backgroundColor: "rgba(255,255,255,0.1)",
                 },
@@ -361,6 +363,6 @@ export default function HeroSection() {
         </Box>
       </Paper>
     </Box>
-  
+
   );
 }

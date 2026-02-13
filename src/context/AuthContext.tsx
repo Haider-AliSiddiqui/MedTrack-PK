@@ -1,8 +1,8 @@
 "use client";
 
-import {onAuthStateChanged, User as FirebaseUser} from "firebase/auth";
-import { doc, getDoc} from "firebase/firestore";
-import { createContext, useContext, useEffect, useState} from "react";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../lib/firebase";
 
 type UserRole = "user" | "pharmacy" | "admin" | null;
@@ -10,6 +10,7 @@ type UserRole = "user" | "pharmacy" | "admin" | null;
 interface AuthContextType {
     user: FirebaseUser | null;
     role: UserRole;
+    eid: string | null;
     loading: boolean;
 }
 

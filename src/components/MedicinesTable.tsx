@@ -15,13 +15,10 @@ import {
   Card,
   CardContent,
   Typography,
-  Grid,
   IconButton,
   Tooltip,
   Button,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocalPharmacyIcon from "@mui/icons-material/LocalPharmacy";
 import LocationOnIcon from "@mui/icons-material/LocationOn";

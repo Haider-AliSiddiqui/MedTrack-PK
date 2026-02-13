@@ -9,6 +9,11 @@ html, body {
   font-family: sans-serif;
   min-height: 100%;
   background-color: #f9fafb; /* gray-50 */
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 @keyframes fadeInUp {
