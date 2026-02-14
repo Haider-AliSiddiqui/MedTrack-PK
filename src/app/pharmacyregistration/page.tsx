@@ -17,12 +17,10 @@ import {
   Step,
   StepLabel,
 } from "@mui/material";
-import Swal from 'sweetalert2';
 import {
   PersonAdd,
   Store,
   Dashboard,
-  CheckCircle,
   Security,
   LocationOn,
   ArrowForward,
@@ -156,7 +154,13 @@ export default function PharmacyRegistration() {
         p: { xs: 1, md: 2 },
       }}
     >
-      <Box sx={{ mb: { xs: 2, md: 3 } }}>
+      <Box sx={{ 
+        mb: { xs: 2, md: 3 }, 
+        width: '100%', 
+        maxWidth: 1200,
+        display: 'flex',
+        justifyContent: 'flex-start'
+      }}>
         <Link href="/" passHref>
           <Button
             variant="contained"

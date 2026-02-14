@@ -17,6 +17,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
     user: null,
     role: null,
+    eid: null,
     loading: true,
 });
 
@@ -58,7 +59,7 @@ export const AuthProvider = ({
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, role, loading }}>
+        <AuthContext.Provider value={{ user, role, eid: null, loading }}>
             {children}
         </AuthContext.Provider>
     );

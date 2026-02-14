@@ -25,10 +25,22 @@ export default function HeroSection() {
   const [selectedCity, setSelectedCity] = useState("");
   const router = useRouter();
 
+  const [cityError, setCityError] = useState(false);
+
   const handleSearch = () => {
-    if (searchTerm.trim()) {
-      router.push(`/search-results?searchTerm=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
+    // Check if search term is empty
+    if (!searchTerm.trim()) {
+      return;
     }
+    
+    // Check if city is selected
+    if (!selectedCity) {
+      setCityError(true);
+      return;
+    }
+    
+    setCityError(false);
+    router.push(`/search-results?searchTerm=${encodeURIComponent(searchTerm)}&city=${encodeURIComponent(selectedCity)}`);
   };
 
   return (
@@ -298,7 +310,12 @@ export default function HeroSection() {
             select
             label="Select City / Area"
             value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
+            onChange={(e) => {
+              setSelectedCity(e.target.value);
+              setCityError(false);
+            }}
+            error={cityError}
+            helperText={cityError ? "Please select a city" : ""}
             InputProps={{
               startAdornment: <LocationOnIcon sx={{ mr: 1 }} />,
             }}

@@ -230,7 +230,8 @@ export default function PharmacyDashboard() {
           status: newMedicineStatus,
           pharmacyName: pharmacyData?.pharmacyName || "",
           location: `${pharmacyData?.address || ""}, ${pharmacyData?.city || ""}`,
-          phone: pharmacyData?.phone || ""
+          phone: pharmacyData?.phone || "",
+          city: pharmacyData?.city || ""
         };
         const id = await addMedicine(user.uid, newMed);
         setMedicines(prev => [...prev, {
@@ -239,7 +240,8 @@ export default function PharmacyDashboard() {
           status: newMedicineStatus,
           pharmacyName: pharmacyData?.pharmacyName || "",
           location: `${pharmacyData?.address || ""}, ${pharmacyData?.city || ""}`,
-          phone: pharmacyData?.phone || ""
+          phone: pharmacyData?.phone || "",
+          city: pharmacyData?.city || ""
         }]);
         await Swal.fire({
           icon: 'success',

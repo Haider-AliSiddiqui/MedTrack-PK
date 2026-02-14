@@ -101,7 +101,7 @@ export default function HowItWorks() {
                                 fontSize: { xs: '14px', md: '16px' },
                                 lineHeight: 1.5
                             }}>
-                               Enter the medicine name you're looking for and select your city.
+                               Enter the medicine name you&apos;re looking for and select your city.
                             </Typography>
                         </CardContent>
                     </Card>

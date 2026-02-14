@@ -25,14 +25,12 @@ import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";
-import { useAuth } from "../../context/AuthContext";
 
 export default function PharmacyLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { user, role } = useAuth();
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -135,7 +133,13 @@ export default function PharmacyLogin() {
         },
       }}
     >
-      <Box sx={{ mb: { xs: 2, md: 3 } }}>
+      <Box sx={{ 
+        mb: { xs: 2, md: 3 }, 
+        width: '100%', 
+        maxWidth: { xs: '95%', md: 1000 },
+        display: 'flex',
+        justifyContent: 'flex-start'
+      }}>
 <Link href="/" passHref>
               <Button
                 variant="contained"

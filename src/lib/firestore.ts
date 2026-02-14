@@ -1,12 +1,4 @@
-import {
-  collection,
-  getDocs,
-  doc,
-  setDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "./firebase";
 
@@ -18,6 +10,7 @@ export interface Medicine {
   pharmacyName: string;
   location: string;
   phone: string;
+  city: string;
 }
 
 /* 🔹 Pharmacy Type */
@@ -50,9 +43,7 @@ export async function getMedicines(): Promise<Medicine[]> {
     // Then, fetch medicines from each pharmacy's subcollection
     const allMedicines: Medicine[] = [];
     for (const pharmacy of pharmacies) {
-      const medicinesSnapshot = await getDocs(
-        collection(db, `pharmacies/${pharmacy.id}/medicines`),
-      );
+      const medicinesSnapshot = await getDocs(collection(db, `pharmacies/${pharmacy.id}/medicines`));
       const medicines = medicinesSnapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.data().name,
@@ -60,6 +51,7 @@ export async function getMedicines(): Promise<Medicine[]> {
         pharmacyName: pharmacy.pharmacyName,
         location: `${pharmacy.address}, ${pharmacy.city}`,
         phone: pharmacy.phone,
+        city: pharmacy.city,
       }));
       allMedicines.push(...medicines);
     }
@@ -72,13 +64,9 @@ export async function getMedicines(): Promise<Medicine[]> {
 }
 
 /* 🔹 Get medicines for a specific pharmacy from subcollection */
-export async function getMedicinesForPharmacy(
-  pharmacyId: string,
-): Promise<Medicine[]> {
+export async function getMedicinesForPharmacy(pharmacyId: string): Promise<Medicine[]> {
   try {
-    const querySnapshot = await getDocs(
-      collection(db, `pharmacies/${pharmacyId}/medicines`),
-    );
+    const querySnapshot = await getDocs(collection(db, `pharmacies/${pharmacyId}/medicines`));
 
     const medicines: Medicine[] = querySnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -93,15 +81,9 @@ export async function getMedicinesForPharmacy(
 }
 
 /* 🔹 Add a new medicine to a pharmacy's subcollection */
-export async function addMedicine(
-  pharmacyId: string,
-  medicine: Omit<Medicine, "id">,
-): Promise<string> {
+export async function addMedicine(pharmacyId: string, medicine: Omit<Medicine, 'id'>): Promise<string> {
   try {
-    const docRef = await addDoc(
-      collection(db, `pharmacies/${pharmacyId}/medicines`),
-      medicine,
-    );
+    const docRef = await addDoc(collection(db, `pharmacies/${pharmacyId}/medicines`), medicine);
     return docRef.id;
   } catch (error) {
     console.error("Error adding medicine:", error);
@@ -110,16 +92,9 @@ export async function addMedicine(
 }
 
 /* 🔹 Update an existing medicine in a pharmacy's subcollection */
-export async function updateMedicine(
-  pharmacyId: string,
-  medicineId: string,
-  updates: Partial<Medicine>,
-): Promise<void> {
+export async function updateMedicine(pharmacyId: string, medicineId: string, updates: Partial<Medicine>): Promise<void> {
   try {
-    await updateDoc(
-      doc(db, `pharmacies/${pharmacyId}/medicines`, medicineId),
-      updates,
-    );
+    await updateDoc(doc(db, `pharmacies/${pharmacyId}/medicines`, medicineId), updates);
   } catch (error) {
     console.error("Error updating medicine:", error);
     throw error;
@@ -127,10 +102,7 @@ export async function updateMedicine(
 }
 
 /* 🔹 Delete a medicine from a pharmacy's subcollection */
-export async function deleteMedicine(
-  pharmacyId: string,
-  medicineId: string,
-): Promise<void> {
+export async function deleteMedicine(pharmacyId: string, medicineId: string): Promise<void> {
   try {
     await deleteDoc(doc(db, `pharmacies/${pharmacyId}/medicines`, medicineId));
   } catch (error) {
@@ -158,11 +130,7 @@ export async function registerPharmacy(pharmacyData: {
 
     // Create user with Firebase Auth
     console.log("Creating Firebase Auth user...");
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      pharmacyData.email,
-      pharmacyData.password,
-    );
+    const userCredential = await createUserWithEmailAndPassword(auth, pharmacyData.email, pharmacyData.password);
     const user = userCredential.user;
     console.log("Firebase Auth user created:", user.uid);
 
@@ -190,6 +158,7 @@ export async function registerPharmacy(pharmacyData: {
 
     // Verify the data was saved
     console.log("Registration completed successfully");
+
   } catch (error) {
     console.error("Error registering pharmacy:", error);
     console.error("Error details:", error);

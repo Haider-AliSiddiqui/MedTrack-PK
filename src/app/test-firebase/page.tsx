@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button, Box, Typography, Alert, Paper } from "@mui/material";
-import { checkFirebaseServices, testFirebaseConnection } from "../../lib/test-firebase";
+import { checkFirebaseServices } from "../../lib/test-firebase";
 import { registerPharmacy } from "../../lib/firestore";
 
 export default function TestFirebase() {

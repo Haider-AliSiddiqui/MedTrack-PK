@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 interface SearchResultsProps {
   searchTerm: string;
   resultCount: number;
+  city: string;
 }
 
-export default function SearchResults({ searchTerm, resultCount }: SearchResultsProps) {
+export default function SearchResults({ searchTerm, resultCount, city }: SearchResultsProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -88,7 +89,7 @@ export default function SearchResults({ searchTerm, resultCount }: SearchResults
               fontWeight: 500,
             }}
           >
-            Found {resultCount} available medicine{resultCount !== 1 ? 's' : ''} in your area.
+            Found {resultCount} available medicine{resultCount !== 1 ? 's' : ''} in {city}.
           </Typography>
         </Box>
       </CardContent>

@@ -19,7 +19,7 @@ export default function RootLayout({
       <Head>
         <title>MedTrack PK</title>
       </Head>
-      <body className="min-h-screen bg-gray-50">
+      <body className="min-h-screen bg-gray-50" suppressHydrationWarning>
         <AuthProvider>
           {children}
         </AuthProvider>

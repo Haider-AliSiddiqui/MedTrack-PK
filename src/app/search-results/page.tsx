@@ -16,6 +16,7 @@ import Loader from "../loader";
 function SearchResultsContent() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("searchTerm") || "";
+  const city = searchParams.get("city") || "";
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,14 +32,17 @@ function SearchResultsContent() {
   const filteredMedicines = useMemo(() => {
     if (searchTerm) {
       return medicines.filter(
-        (med) =>
-          med.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          med.status === "Available"
+        (med) => {
+          const matchesSearch = med.name.toLowerCase().includes(searchTerm.toLowerCase());
+          const matchesStatus = med.status === "Available";
+          const matchesCity = city ? med.city.toLowerCase() === city.toLowerCase() : true;
+          return matchesSearch && matchesStatus && matchesCity;
+        }
       );
     } else {
       return [];
     }
-  }, [medicines, searchTerm]);
+  }, [medicines, searchTerm, city]);
 
   if (loading) {
     return (
@@ -154,7 +158,7 @@ startIcon={
               </Button>
             </Link>
           </Box>
-          <SearchResults searchTerm={searchTerm} resultCount={filteredMedicines.length} />
+<SearchResults searchTerm={searchTerm} resultCount={filteredMedicines.length} city={city} />
           {filteredMedicines.length > 0 ? (
             <MedicinesTable medicines={filteredMedicines} />
           ) : (
